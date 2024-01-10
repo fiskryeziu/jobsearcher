@@ -1,10 +1,13 @@
 import puppeteer from "puppeteer";
 import * as cheerio from 'cheerio';
 import { TJobListing } from '@/app/lib/definitions';
+import axios from "axios";
+import { unstable_noStore as noStore } from "next/cache";
 
 
 
 export async function getGjirafaJobListings() {
+    noStore()
     let browser
 
     try {
@@ -68,20 +71,12 @@ export async function getGjirafaJobListings() {
     }
 }
 export async function getKosovaJobListings() {
-    let browser
+    noStore()
 
     try {
-        browser = await puppeteer.launch({
-            headless: 'new',
-        });
+        const html = await axios.get('https://kosovajob.com/?jobIndustry=15')
 
-        const page = await browser.newPage();
-
-        await page.goto('https://kosovajob.com/?jobIndustry=15');
-
-        const html = await page.content();
-
-        const $ = cheerio.load(html);
+        const $ = cheerio.load(html.data);
 
         const listings = $('.listCnt > .jobListCnts')
             .map((idx, element) => {
@@ -104,28 +99,16 @@ export async function getKosovaJobListings() {
         return listings
     } catch (error) {
         throw new Error("Internal Server Error");
-    } finally {
-        if (browser) {
-            await browser.close();
-        }
     }
 }
 
 export async function getTelegrafiJobListings() {
-    let browser
+    noStore()
 
     try {
-        browser = await puppeteer.launch({
-            headless: 'new',
-        });
+        const html = await axios.get('https://jobs.telegrafi.com/?q=&vendi=&kategoria=Teknologji+Informative+-+IT')
 
-        const page = await browser.newPage();
-
-        await page.goto('https://jobs.telegrafi.com/?q=&vendi=&kategoria=Teknologji+Informative+-+IT');
-
-        const html = await page.content();
-
-        const $ = cheerio.load(html);
+        const $ = cheerio.load(html.data);
 
         const listings = $('.col-lg-8.col-md-12 > .job-info.item-job')
             .map((idx, element): TJobListing => {
@@ -148,28 +131,16 @@ export async function getTelegrafiJobListings() {
         return listings
     } catch (error) {
         throw new Error("Internal Server Error");
-    } finally {
-        if (browser) {
-            await browser.close();
-        }
     }
 }
 
 export async function getOfertaPuneJobListings() {
-    let browser
+    noStore()
 
     try {
-        browser = await puppeteer.launch({
-            headless: 'new',
-        });
+        const html = await axios.get('https://ofertapune.net/kategori-pune/teknologji-e-informacionit/')
 
-        const page = await browser.newPage();
-
-        await page.goto('https://ofertapune.net/kategori-pune/teknologji-e-informacionit/');
-
-        const html = await page.content();
-
-        const $ = cheerio.load(html);
+        const $ = cheerio.load(html.data);
 
         const listings = $('.job_listings > li')
             .map((idx, element) => {
@@ -192,13 +163,10 @@ export async function getOfertaPuneJobListings() {
         return listings
     } catch (error) {
         throw new Error("Internal Server Error");
-    } finally {
-        if (browser) {
-            await browser.close();
-        }
     }
 }
 export async function getSuperpunaJobListings() {
+    noStore()
     let browser
 
     try {
@@ -232,7 +200,8 @@ export async function getSuperpunaJobListings() {
         return listings
     } catch (error) {
         throw new Error("Internal Server Error");
-    } finally {
+    }
+    finally {
         if (browser) {
             await browser.close();
         }
