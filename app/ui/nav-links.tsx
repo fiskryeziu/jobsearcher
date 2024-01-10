@@ -10,12 +10,12 @@ import {
 } from "@heroicons/react/16/solid"
 import clsx from "clsx"
 const links = [
-  {
-    name: "Gjirafa | Top Punë",
-    href: "/gjirafa-jobs",
-    icon: StarIcon,
-    color: "#FFFF00",
-  },
+  // {
+  //   name: "Gjirafa | Top Punë",
+  //   href: "/gjirafa-jobs",
+  //   icon: StarIcon,
+  //   color: "#FFFF00",
+  // },
   {
     name: "KosovaJobs",
     href: "/kosova-jobs",
@@ -34,12 +34,12 @@ const links = [
     icon: DocumentTextIcon,
     color: "#ffffff",
   },
-  {
-    name: "Superpuna",
-    href: "/superpuna",
-    icon: BellAlertIcon,
-    color: "#FFFF00",
-  },
+  // {
+  //   name: "Superpuna",
+  //   href: "/superpuna",
+  //   icon: BellAlertIcon,
+  //   color: "#FFFF00",
+  // },
 ]
 function NavLink() {
   const pathname = usePathname()
